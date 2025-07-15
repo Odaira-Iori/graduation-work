@@ -1,0 +1,511 @@
+/*初期設定----------------------------------------------------------------------------*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+.zen-kurenaido-regular {
+    font-family: "Zen Kurenaido", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
+body {
+    background-color: rgb(250, 246, 238);
+    color: rgb(55, 25, 16);
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(55, 25, 16);
+    transition: color 0.3s ease;
+}
+
+a:link {
+    color: rgb(55, 25, 16); /* 未訪問のリンク */
+    transition: color 0.3s ease;
+}
+
+a:visited:not(.header-link) {
+    color: rgb(159, 123, 110); /* 訪問済みのリンク */
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: rgb(220, 184, 173); /* マウスを乗せたとき */
+    transition: color 0.3s ease;
+}
+
+i:hover {
+    color: rgb(220, 184, 173); /* マウスを乗せたとき */
+    transition: color 0.3s ease;
+}
+
+a:active {
+    color: rgb(161, 79, 54); /* クリック中 */
+    transition: color 0.3s ease;
+}
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+/*header----------------------------------------------------------------------------*/
+
+header {
+    width: 100%;
+    height: 75px;
+    background-color: rgb(250, 246, 238);
+    box-shadow: 0px 3px 4px rgba(208, 202, 191, 0.7);
+    position: fixed;
+    top: -85px; /* 最初はヘッダーの高さ分だけ隠す */
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: top 0.3s ease;
+    z-index: 1000;
+}
+
+header.show {
+    top: 0; /* スクロールしたらここで表示 */
+}
+
+#logo {
+    width: 130px;
+    height: auto;
+    margin: 3px 0 0 20px;
+}
+
+#logo img {
+    width: 100%;
+}
+
+header ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 20px;
+}
+
+header li {
+    width: 120px;
+    text-align: center;
+    margin: 0 10px;
+}
+
+header nav a {
+    font-size: 17px; 
+    padding: 5px 20px;
+}
+
+.fa-brands {
+    font-size: 24px;
+}
+
+.sns-icon-wrapper {
+    width: 150px;
+}
+
+.sns-icon-inner {
+    width: fit-content;
+    margin: auto;
+}
+
+.sns-icon {
+    margin: 0 5px;
+}
+
+header a.current {
+  color: rgb(223, 108, 73); /* 表示ページのリンク色 */
+}
+
+
+
+
+/*main----------------------------------------------------------------------------*/
+
+
+main {
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+
+/*top-------------------------------------------------------------------------------------------------------------*/
+
+/*slide----------------------------------------------------------------------------*/
+
+#main-top {
+    width: 100%;
+    height: 100vh;
+    /*background-image: url(../img/green.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;*/
+}
+
+
+.slider div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	z-index: -10;
+	opacity: 0;
+	animation-name: slide-fade;
+	animation-duration: 30s;
+	animation-iteration-count: infinite;
+    background-color: rgba(245, 253, 250, .45);
+    background-blend-mode:lighten;
+}
+
+@keyframes slide-fade {
+	0%{
+		opacity: 0;
+	}
+	20%{
+		opacity: .5;
+	}
+	80%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 0;
+		z-index: 0;
+	}
+}
+.slider div:first-of-type{
+	background-image: url(../img/cafe.jpg);
+}
+.slider div:nth-of-type(2){
+	background-image: url(../img/books.jpg);
+	animation-delay: 10s;
+}
+.slider div:last-of-type{
+	background-image: url(../img/neko.jpg);
+	animation-delay: 20s;
+}
+
+
+#main-top {
+  position: relative; /* 子要素の絶対配置の基準にする */
+  width: 100%;
+  height: 100vh;
+  /* 既存スタイルはそのまま */
+}
+
+#main-top p {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  text-align: center;
+  color: rgb(55, 25, 16); /* 見やすい色に調整してね */
+  font-size: 1.5rem;
+  line-height: 2;
+  max-width: 90%; /* 横幅制限してスマホ時のはみ出し防止 */
+}
+
+.ito {
+    color: rgb(156, 41, 41);
+}
+
+
+
+
+/*main contents----------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+/*footer----------------------------------------------------------------------------*/
+
+
+footer {
+    width: 100%;
+    background-color: rgb(46, 17, 9);
+    color: rgb(250, 246, 238);
+    padding: 40px;
+}
+
+.footer-mark {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#footer-logo {
+    width: 150px;
+    height: auto;
+    margin: 5px 0 0 20px;
+}
+
+#footer-logo img {
+    width: 100%;
+}
+
+footer .fa-brands {
+    font-size: 30px;
+}
+
+.footer-icon-wrapper {
+    width: 150px;
+}
+
+.footer-icon-inner {
+    width: fit-content;
+    margin: auto;
+}
+
+.footer-icon {
+    margin: 0 5px;
+}
+
+
+footer a {
+    text-decoration: none;
+    color: rgb(250, 246, 238);
+    transition: color 0.3s ease;
+}
+
+footer a:link {
+    color: rgb(250, 246, 238); /* 未訪問のリンク */
+    transition: color 0.3s ease;
+}
+
+
+#footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+}
+
+#footer-nav li {
+    position: relative;
+}
+
+/* 2つ目以降のリンクの前に区切り線を表示 */
+#footer-nav li:not(:first-child)::before {
+    content: "|";
+    position: absolute;
+    left: -2em; /* 調整ポイント：リンクの中央に縦棒が来るように */
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(250, 246, 238); /* お好みの色にしてね */
+    font-size: 0.8em;
+}
+
+#footer-nav a {
+    font-size: 0.9rem;
+}
+
+
+.copy {
+    text-align: center;
+}
+
+
+
+
+
+/*ohter----------------------------------------------------------------------------*/
+
+.back {
+  width: 48px;
+  height: 48px;
+  font-size: 80%;
+  color: rgb(46, 17, 9);
+  border: rgb(159, 123, 110) 2.5px solid;
+  border-radius: 30px;
+  background-color: rgb(250, 246, 238);
+
+    /* 中央寄せ */
+  display: flex;
+  justify-content: center; /* 横中央 */
+  align-items: center;     /* 縦中央 */
+  text-align: center;
+
+  position: sticky; /* ← sticky ではなく fixed に変更！ */
+  bottom: 5%;
+  left: 98%;
+  transform: translateX(-50%); /* 中央基準で調整 */
+  z-index: 999;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* スクロールで表示する用のクラス */
+.back.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.back:hover {
+    color: rgb(250, 246, 238);
+    background-color: rgb(127, 106, 99);
+    transition: all 0.3s;
+}
+
+
+
+
+
+
+
+/*slide mobile----------------------------------------------------------------------------*/
+
+.sp-only {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+    #main-top p {
+        top: 50%;
+        font-size: 125%;
+        line-height: 1.6;
+    }
+
+    .sp-only {
+        display: inline;
+    }
+}
+
+
+
+
+
+
+
+/*footer mobile----------------------------------------------------------------------------*/
+
+/* PCは非表示 */
+#mobile-logo {
+  display: none;
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .footer-mark {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #footer-logo {
+    margin: 10px auto;
+  }
+
+  #footer-nav ul {
+    flex-direction: column;
+    gap: 1em;
+    margin: 20px 0;
+  }
+
+  #footer-nav li:not(:first-child)::before {
+    content: none; /* 区切り線を消す */
+  }
+
+  .footer-icon-wrapper {
+    margin-top: 20px;
+    width: auto;
+  }
+
+  .footer-icon-inner {
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .copy {
+    font-size: 85%;
+    margin-top: 60px;
+  }
+}
+
+
+
+
+
+
+/*other mobile----------------------------------------------------------------------------*/
+
+@media screen and (max-width: 768px) {
+  #mobile-logo {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 10px;     /* ← ここを left に */
+    width: 85px;
+    height: auto;
+    z-index: 1002;
+  }
+}
+
+
+#scroll-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: rgb(250, 246, 238);
+  box-shadow: 0px 2px 3px rgba(208, 202, 191, 0.7);
+  z-index: 999;
+
+  /* アニメーション用 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: all 0.4s ease;
+}
+
+/* スクロール後に表示する状態 */
+#scroll-bar.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* PCでは非表示 */
+@media screen and (min-width: 769px) {
+  #scroll-bar {
+    display: none !important;
+  }
+}
