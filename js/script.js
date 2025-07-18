@@ -1,11 +1,17 @@
-document.querySelectorAll('header nav a').forEach(link => {
-  if(link.href === window.location.href){
-    link.classList.add('current');
-  }
-});
-
-
 document.addEventListener('DOMContentLoaded', function () {
+  // ナビリンクのcurrentクラス切り替え
+  document.querySelectorAll('header nav a').forEach(link => {
+    const linkPath = new URL(link.href).pathname;
+    const currentPath = window.location.pathname;
+
+    if (
+      linkPath === currentPath ||
+      (linkPath === '/' && (currentPath === '/' || currentPath === '/index.html'))
+    ) {
+      link.classList.add('current');
+    }
+  });
+
   // ヘッダーのスクロール制御
   const header = document.querySelector('header');
   let lastScrollY = window.pageYOffset;
@@ -21,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     lastScrollY = currentScrollY;
   });
+
+
 
   // ハンバーガーメニュー制御
   const nav = document.getElementById('nav-wrapper');
@@ -110,24 +118,54 @@ window.addEventListener('DOMContentLoaded', () => {
   const isFirstVisit = sessionStorage.getItem('visited') !== 'true';
   const isTopPage = location.pathname.endsWith('index.html') || location.pathname === '/';
 
-  if (!isTopPage) {
-    showLoading('patternB.mp4');
-    return;
-  }
+  // ページ遷移時のリンクに対してイベントを仕込む
+  const links = document.querySelectorAll('a[href]');
+  links.forEach(link => {
+    // 外部リンクや同一ページ内リンクはスキップ
+    const href = link.getAttribute('href');
+    if (
+      href.startsWith('#') ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      link.target === '_blank'
+    ) return;
 
-  if (isFirstVisit) {
-    showLoading('first-loading.mp4');
+    link.addEventListener('click', e => {
+      e.preventDefault(); // デフォルトのリンク遷移を止める
+
+      showLoading('loading.mp4', () => {
+        // 再生終了後に遷移
+        window.location.href = link.href;
+      });
+    });
+  });
+
+  // index.html の最初の表示だけファーストローディング
+  if (isTopPage && isFirstVisit) {
     sessionStorage.setItem('visited', 'true');
-  } else {
-    showLoading('loading.mp4');
+    showLoading('first-loading.mp4');
   }
 });
 
-function showLoading(videoSrc) {
+function showLoading(videoSrc, onEndCallback) {
+  // スクロール禁止
   document.body.style.overflow = 'hidden';
+
+  // すでにローディング中なら無視
+  if (document.querySelector('.loading')) return;
 
   const loading = document.createElement('div');
   loading.className = 'loading';
+  loading.style.cssText = `
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `;
+
   loading.innerHTML = `
     <video id="loadingVideo" src="${videoSrc}" autoplay muted playsinline></video>
   `;
@@ -135,21 +173,16 @@ function showLoading(videoSrc) {
 
   const video = loading.querySelector('#loadingVideo');
 
-  video.addEventListener('loadedmetadata', () => {
-    const fadeDuration = 0.5; // フェードアウト時間（秒）
-    const fadeStart = video.duration - fadeDuration;
+  video.addEventListener('ended', () => {
+    loading.classList.add('fade-out');
+    setTimeout(() => {
+      loading.remove();
+      document.body.style.overflow = '';
 
-    function checkTime() {
-      if (video.currentTime >= fadeStart) {
-        loading.classList.add('fade-out');
-        setTimeout(() => {
-          loading.remove();
-          document.body.style.overflow = '';
-        }, fadeDuration * 1000);
-        video.removeEventListener('timeupdate', checkTime);
+      // コールバックがあれば実行（リンク遷移など）
+      if (typeof onEndCallback === 'function') {
+        onEndCallback();
       }
-    }
-
-    video.addEventListener('timeupdate', checkTime);
+    }, 500); // フェードアウト時間
   });
 }

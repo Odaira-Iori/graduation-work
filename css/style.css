@@ -40,7 +40,7 @@ html, body {
   align-items: center;
   justify-content: center;
   opacity: 1;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
 }
 
 
@@ -52,6 +52,7 @@ html, body {
 
 .loading.fade-out {
   opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 
@@ -380,6 +381,7 @@ footer a:link {
 
 .copy {
     text-align: center;
+    color: rgb(189, 170, 164);
 }
 
 
