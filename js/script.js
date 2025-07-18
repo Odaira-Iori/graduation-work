@@ -160,7 +160,7 @@ function showLoading(videoSrc, onEndCallback) {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: black;
+    background: #faf6ee;
     display: flex;
     justify-content: center;
     align-items: center;
