@@ -97,3 +97,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+
+
+
+
+const isFirstVisit = !localStorage.getItem("visited");
+    const isTopPage = window.location.pathname === "/" || window.location.pathname === "/index.html";
+
+    const loader = document.getElementById("loader");
+    const main = document.querySelector("main");
+    const video = document.getElementById("loadingVideo");
+    const videoSource = document.getElementById("videoSource");
+
+    // 動画の分岐ロジック
+    if (isFirstVisit && isTopPage) {
+      videoSource.src = "first-loading.mp4"; // 初回＆トップページ用
+      localStorage.setItem("visited", "true"); // フラグを立てておく
+    } else {
+      videoSource.src = "loading.mp4"; // 2回目以降 or 他のページ
+    }
+
+    // 動画の読み込みを反映
+    video.load();
+
+    // 動画が終わったら本編表示
+    video.addEventListener("ended", () => {
+      loader.style.display = "none";
+      main.style.display = "block";
+    });
+
+    // ※ページをすぐ表示したいときは↓で強制非表示にもできる
+    // video.addEventListener("loadeddata", () => {
+    //   if (videoSource.src.includes("videoB.mp4")) {
+    //     loader.style.display = "none";
+    //     main.style.display = "block";
+    //   }
+    // });
