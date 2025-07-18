@@ -102,35 +102,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-const isFirstVisit = !localStorage.getItem("visited");
-    const isTopPage = window.location.pathname === "/" || window.location.pathname === "/index.html";
 
-    const loader = document.getElementById("loader");
-    const main = document.querySelector("main");
-    const video = document.getElementById("loadingVideo");
-    const videoSource = document.getElementById("videoSource");
 
-    // 動画の分岐ロジック
-    if (isFirstVisit && isTopPage) {
-      videoSource.src = "first-loading.mp4"; // 初回＆トップページ用
-      localStorage.setItem("visited", "true"); // フラグを立てておく
-    } else {
-      videoSource.src = "loading.mp4"; // 2回目以降 or 他のページ
-    }
+window.addEventListener('DOMContentLoaded', () => {
+  const isFirstVisit = sessionStorage.getItem('visited') !== 'true';
+  const isTopPage = location.pathname.endsWith('index.html') || location.pathname === '/';
 
-    // 動画の読み込みを反映
-    video.load();
+  // 他のページなら常にパターンB
+  if (!isTopPage) {
+    showLoading('patternB.mp4');
+    return;
+  }
 
-    // 動画が終わったら本編表示
-    video.addEventListener("ended", () => {
-      loader.style.display = "none";
-      main.style.display = "block";
-    });
+  // index.html の場合：初回ならパターンA、それ以降はB
+  if (isFirstVisit) {
+    showLoading('patternA.mp4');
+    sessionStorage.setItem('visited', 'true');
+  } else {
+    showLoading('patternB.mp4');
+  }
+});
 
-    // ※ページをすぐ表示したいときは↓で強制非表示にもできる
-    // video.addEventListener("loadeddata", () => {
-    //   if (videoSource.src.includes("videoB.mp4")) {
-    //     loader.style.display = "none";
-    //     main.style.display = "block";
-    //   }
-    // });
+function showLoading(videoSrc) {
+  const loading = document.createElement('div');
+  loading.className = 'loading';
+  loading.innerHTML = `
+    <video src="${videoSrc}" autoplay muted playsinline></video>
+  `;
+  document.body.appendChild(loading);
+
+  // ロード完了後に非表示（3秒後などに自動で消えるように）
+  setTimeout(() => {
+    loading.remove();
+  }, 3000); // 必要に応じて秒数調整
+}
