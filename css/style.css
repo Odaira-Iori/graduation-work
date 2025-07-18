@@ -27,21 +27,20 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
 }
 
 .loading {
   position: fixed;
-  top: 0;
+  top: 0; 
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100vw; height: 100vh;
   background: black;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 
 .loading video {
   width: 100%;
@@ -185,6 +184,7 @@ header a.current {
 main {
     width: 100%;
     margin: 0 auto;
+    margin-top: -150px;
 }
 
 

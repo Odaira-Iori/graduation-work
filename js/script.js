@@ -124,6 +124,9 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function showLoading(videoSrc) {
+  // スクロール禁止
+  document.body.style.overflow = 'hidden';
+
   const loading = document.createElement('div');
   loading.className = 'loading';
   loading.innerHTML = `
@@ -131,8 +134,9 @@ function showLoading(videoSrc) {
   `;
   document.body.appendChild(loading);
 
-  // ロード完了後に非表示（3秒後などに自動で消えるように）
+  // 3秒後にローディング非表示＆スクロール許可
   setTimeout(() => {
     loading.remove();
-  }, 3000); // 必要に応じて秒数調整
+    document.body.style.overflow = '';
+  }, 3000);
 }
