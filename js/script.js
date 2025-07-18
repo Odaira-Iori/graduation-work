@@ -106,6 +106,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+window.addEventListener('DOMContentLoaded', () => {
+  const isFirstVisit = sessionStorage.getItem('visited') !== 'true';
+  const isTopPage = location.pathname.endsWith('index.html') || location.pathname === '/';
+
+  if (!isTopPage) {
+    showLoading('patternB.mp4');
+    return;
+  }
+
+  if (isFirstVisit) {
+    showLoading('first-loading.mp4');
+    sessionStorage.setItem('visited', 'true');
+  } else {
+    showLoading('loading.mp4');
+  }
+});
+
 function showLoading(videoSrc) {
   document.body.style.overflow = 'hidden';
 
@@ -119,7 +136,7 @@ function showLoading(videoSrc) {
   const video = loading.querySelector('#loadingVideo');
 
   video.addEventListener('loadedmetadata', () => {
-    const fadeDuration = 0.5; // 秒
+    const fadeDuration = 0.5; // フェードアウト時間（秒）
     const fadeStart = video.duration - fadeDuration;
 
     function checkTime() {
