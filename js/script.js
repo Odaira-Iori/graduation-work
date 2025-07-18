@@ -106,44 +106,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-window.addEventListener('DOMContentLoaded', () => {
-  const isFirstVisit = sessionStorage.getItem('visited') !== 'true';
-  const isTopPage = location.pathname.endsWith('index.html') || location.pathname === '/';
-
-  // 他のページなら常にパターンB
-  if (!isTopPage) {
-    showLoading('patternB.mp4');
-    return;
-  }
-
-  // index.html の場合：初回ならパターンA、それ以降はB
-  if (isFirstVisit) {
-    showLoading('first-loading.mp4');
-    sessionStorage.setItem('visited', 'true');
-  } else {
-    showLoading('loading.mp4');
-  }
-});
-
 function showLoading(videoSrc) {
-  // スクロール禁止
   document.body.style.overflow = 'hidden';
 
   const loading = document.createElement('div');
   loading.className = 'loading';
   loading.innerHTML = `
-    <video src="${videoSrc}" autoplay muted playsinline></video>
+    <video id="loadingVideo" src="${videoSrc}" autoplay muted playsinline></video>
   `;
   document.body.appendChild(loading);
 
-  // 3秒後にフェードアウト開始
-  setTimeout(() => {
-    loading.classList.add('fade-out');
+  const video = loading.querySelector('#loadingVideo');
 
-    // 0.5秒後に非表示＆スクロール許可
-    setTimeout(() => {
-      loading.remove();
-      document.body.style.overflow = '';
-    }, 500);
-  }, 3000);
+  video.addEventListener('loadedmetadata', () => {
+    const fadeDuration = 0.5; // 秒
+    const fadeStart = video.duration - fadeDuration;
+
+    function checkTime() {
+      if (video.currentTime >= fadeStart) {
+        loading.classList.add('fade-out');
+        setTimeout(() => {
+          loading.remove();
+          document.body.style.overflow = '';
+        }, fadeDuration * 1000);
+        video.removeEventListener('timeupdate', checkTime);
+      }
+    }
+
+    video.addEventListener('timeupdate', checkTime);
+  });
 }
