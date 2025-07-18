@@ -104,6 +104,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+
+
 window.addEventListener('DOMContentLoaded', () => {
   const isFirstVisit = sessionStorage.getItem('visited') !== 'true';
   const isTopPage = location.pathname.endsWith('index.html') || location.pathname === '/';
@@ -134,9 +136,14 @@ function showLoading(videoSrc) {
   `;
   document.body.appendChild(loading);
 
-  // 3秒後にローディング非表示＆スクロール許可
+  // 3秒後にフェードアウト開始
   setTimeout(() => {
-    loading.remove();
-    document.body.style.overflow = '';
+    loading.classList.add('fade-out');
+
+    // 0.5秒後に非表示＆スクロール許可
+    setTimeout(() => {
+      loading.remove();
+      document.body.style.overflow = '';
+    }, 500);
   }, 3000);
 }
