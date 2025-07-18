@@ -116,10 +116,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // index.html の場合：初回ならパターンA、それ以降はB
   if (isFirstVisit) {
-    showLoading('patternA.mp4');
+    showLoading('first-loading.mp4');
     sessionStorage.setItem('visited', 'true');
   } else {
-    showLoading('patternB.mp4');
+    showLoading('loading.mp4');
   }
 });
 
